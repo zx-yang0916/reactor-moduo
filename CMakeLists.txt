@@ -23,17 +23,19 @@ set(SOURCES
     src/main.cpp
     src/Reactor/Reactor.cpp
     src/Reactor/ReactorImplementation.cpp
-    src/Reactor/EpollDemultiplexer.cpp
+    src/Reactor/SelectDemultiplexer.cpp
     src/Reactor/Acceptor.cpp
     src/Reactor/ConnectionHandler.cpp
+    src/Reactor/MainReactor.cpp
+    src/Reactor/SubReactor.cpp
 )
 
+# 如果支持epoll，添加epoll实现
 if(HAVE_EPOLL)
     list(APPEND SOURCES src/Reactor/EpollDemultiplexer.cpp)
-else()
-    list(APPEND SOURCES src/Reactor/SelectDemultiplexer.cpp)
 endif()
 
+# 可执行文件
 add_executable(reactor_server ${SOURCES})
 
 # 链接库

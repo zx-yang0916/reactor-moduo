@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <sys/select.h>
 #include <iostream>
+#include <cstring>  // for strerror
+#include <cerrno>   // for errno
 
 namespace Reactor {
 
