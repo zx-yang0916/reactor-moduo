@@ -1,26 +1,39 @@
 cmake_minimum_required(VERSION 3.10)
-project(ReactorServer)
+project(reactor_server)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 检查epoll支持
-include(CheckFunctionExists)
-check_function_exists(epoll_create HAVE_EPOLL)
+include(CheckSymbolExists)
+check_symbol_exists(epoll_create "sys/epoll.h" HAVE_EPOLL)
 
 if(HAVE_EPOLL)
-    add_definitions(-DHAVE_EPOLL)
     message(STATUS "System supports epoll")
+    add_definitions(-DHAVE_EPOLL)
 else()
-    message(STATUS "System does not support epoll, will use select")
+    message(STATUS "System does not support epoll, using select")
 endif()
 
 # 包含目录
-include_directories(include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
-# 源文件
-file(GLOB SOURCES src/*.cpp src/Reactor/*.cpp)
+# 源文件列表
+set(SOURCES
+    src/main.cpp
+    src/Reactor/Reactor.cpp
+    src/Reactor/ReactorImplementation.cpp
+    src/Reactor/EpollDemultiplexer.cpp
+    src/Reactor/Acceptor.cpp
+    src/Reactor/ConnectionHandler.cpp
+)
 
-# 可执行文件
+if(HAVE_EPOLL)
+    list(APPEND SOURCES src/Reactor/EpollDemultiplexer.cpp)
+else()
+    list(APPEND SOURCES src/Reactor/SelectDemultiplexer.cpp)
+endif()
+
 add_executable(reactor_server ${SOURCES})
 
 # 链接库

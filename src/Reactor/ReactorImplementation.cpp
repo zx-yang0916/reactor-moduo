@@ -1,13 +1,20 @@
 #include "Reactor/ReactorImplementation.h"
 #include <memory>
+#ifdef HAVE_EPOLL
 #include "Reactor/EpollDemultiplexer.h"
+#else
+#include "Reactor/SelectDemultiplexer.h"
+#endif
 #include <iostream>
-
 
 namespace Reactor {
 
 ReactorImplementation::ReactorImplementation() {
+#ifdef HAVE_EPOLL
     demultiplexer_ = std::make_unique<EpollDemultiplexer>();
+#else
+    demultiplexer_ = std::make_unique<SelectDemultiplexer>();
+#endif
 }
 
 ReactorImplementation::~ReactorImplementation() = default;

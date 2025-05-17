@@ -1,25 +1,25 @@
-#pragma once
+// #pragma once
 
-#include "EventHandler.h"
-#include "Reactor.h"
-#include <vector>
+// #include "EventHandler.h"
+// #include "Reactor.h"
+// #include <vector>
 
-namespace Reactor {
+// namespace Reactor {
 
-class SockHandle : public EventHandler {
-public:
-    explicit SockHandle(Handle fd);
-    ~SockHandle() override;
+// class SockHandle : public EventHandler {
+// public:
+//     explicit SockHandle(Handle fd);
+//     ~SockHandle() override;
 
-    Handle getHandle() const override { return sock_fd_; }
-    void handleRead() override;
-    void handleWrite() override {}
-    void handleError() override;
-private:
-    Handle sock_fd_;
+//     Handle getHandle() const override { return sock_fd_; }
+//     void handleRead() override;
+//     void handleWrite() override {}
+//     void handleError() override;
+// private:
+//     Handle sock_fd_;
     
-    static const size_t BUFFER_SIZE = 1024;
-    std::vector<char> buffer_;
-};
+//     static const size_t BUFFER_SIZE = 1024;
+//     std::vector<char> buffer_;
+// };
 
-}
+// }
