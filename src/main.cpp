@@ -2,12 +2,10 @@
 #include <iostream>
 #include <thread>
 
-using namespace Reactor;
 
 int main() {
     try {
-        // 创建主Reactor，使用4个从Reactor
-        MainReactor mainReactor(8080, 4);
+        Reactor::MainReactor mainReactor(8080, 4);   // 一个主 reactor， 4个从 reactor
         
         std::cout << "Server starting on port 8080..." << std::endl;
         mainReactor.start();

@@ -20,8 +20,8 @@ public:
     void eventLoop(int timeout = 10); // 10ms
 
 private:
-    std::unique_ptr<EventDemultiplexer> demultiplexer_;
-    std::unordered_map<Handle, EventHandler*> handlers_;
+    std::unique_ptr<EventDemultiplexer> demultiplexer_;            // 事件多路复用器
+    std::unordered_map<Handle, EventHandler*> handlers_;           // 事件处理器
 };
 
 } // namespace

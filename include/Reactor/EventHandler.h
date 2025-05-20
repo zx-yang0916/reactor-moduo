@@ -6,10 +6,34 @@ namespace Reactor {
 using Handle = int;
 
 enum EventType {
+    NoneEvent = 0,
     ReadEvent = EPOLLIN,
     WriteEvent = EPOLLOUT,
-    ErrorEvent = EPOLLERR
+    ErrorEvent = EPOLLERR,
+    // 预定义一些常用的组合
+    ReadWrite = ReadEvent | WriteEvent
 };
+
+// 支持位运算操作
+inline EventType operator|(EventType a, EventType b) {
+    return static_cast<EventType>(static_cast<int>(a) | static_cast<int>(b));
+}
+
+inline EventType operator&(EventType a, EventType b) {
+    return static_cast<EventType>(static_cast<int>(a) & static_cast<int>(b));
+}
+
+inline EventType operator~(EventType a) {
+    return static_cast<EventType>(~static_cast<int>(a));
+}
+
+inline EventType& operator|=(EventType& a, EventType b) {
+    return a = a | b;
+}
+
+inline EventType& operator&=(EventType& a, EventType b) {
+    return a = a & b;
+}
 
 class EventHandler {
 public:
@@ -21,5 +45,4 @@ public:
     virtual void handleError() = 0;
 };
 
-
-} // namespace Ractor
+} // namespace Reactor

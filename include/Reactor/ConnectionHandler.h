@@ -21,8 +21,8 @@ public:
     void handleError() override;
 
     void send(const char* data, size_t len);
-    void setMessageCallback(const MessageCallback& cb) { messageCallback_ = cb; }
-    void setCloseCallback(const CloseCallback& cb) { closeCallback_ = cb; }
+    void setMessageCallback(const MessageCallback& cb) { messageCallback_ = cb; }   // 设置消息回调
+    void setCloseCallback(const CloseCallback& cb) { closeCallback_ = cb; }         // 设置关闭回调
 
 private:
     Handle sock_fd_;
